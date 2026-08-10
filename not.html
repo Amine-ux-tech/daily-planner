@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>يومي | Daily Planner</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Tahoma,
+    Arial,
+    sans-serif;
+
+  background:#f5f5f2;
+  color:#202020;
+  padding:25px;
+}
+
+.container{
+  max-width:1050px;
+  margin:auto;
+}
+
+/* HEADER */
+
+.header{
+  background:#ffffff;
+  border-radius:24px;
+  padding:28px;
+  margin-bottom:18px;
+  border:1px solid #e8e8e4;
+}
+
+.date{
+  font-size:14px;
+  color:#888;
+  margin-bottom:8px;
+}
+
+.title{
+  font-size:34px;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.subtitle{
+  color:#777;
+}
+
+/* PROGRESS */
+
+.progress-card{
+  background:#202020;
+  color:white;
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:18px;
+}
+
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.progress-number{
+  font-size:30px;
+  font-weight:800;
+}
+
+.progress-bar{
+  width:100%;
+  height:10px;
+  background:#444;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  width:0%;
+  height:100%;
+  background:#ffffff;
+  border-radius:20px;
+  transition:.3s;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+/* CARD */
+
+.card{
+  background:#ffffff;
+  border:1px solid #e8e8e4;
+  border-radius:24px;
+  padding:24px;
+}
+
+.card h2{
+  font-size:19px;
+  margin-bottom:18px;
+}
+
+.card-subtitle{
+  font-size:13px;
+  color:#888;
+  margin-top:-12px;
+  margin-bottom:18px;
+}
+
+/* PRIORITIES */
+
+.priority{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid #eeeeeb;
+}
+
+.priority:last-child{
+  border-bottom:0;
+}
+
+.priority-number{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:#f0f0ec;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+}
+
+.priority input{
+  border:0;
+  outline:none;
+  width:100%;
+  font-size:15px;
+  background:transparent;
+}
+
+/* TASKS */
+
+.task{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #eeeeeb;
+}
+
+.task:last-child{
+  border-bottom:0;
+}
+
+.task input[type="checkbox"]{
+  width:19px;
+  height:19px;
+  cursor:pointer;
+}
+
+.task-text{
+  flex:1;
+  font-size:15px;
+}
+
+.task.done .task-text{
+  text-decoration:line-through;
+  color:#aaa;
+}
+
+.delete{
+  border:0;
+  background:transparent;
+  color:#aaa;
+  cursor:pointer;
+  font-size:18px;
+}
+
+.delete:hover{
+  color:#222;
+}
+
+/* ADD TASK */
+
+.add-task{
+  display:flex;
+  gap:8px;
+  margin-top:15px;
+}
+
+.add-task input{
+  flex:1;
+  border:1px solid #ddd;
+  background:#fafafa;
+  border-radius:12px;
+  padding:11px 13px;
+  outline:none;
+}
+
+.add-task button{
+  border:0;
+  background:#202020;
+  color:white;
+  border-radius:12px;
+  padding:0 17px;
+  cursor:pointer;
+}
+
+/* TIMELINE */
+
+.timeline{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.time-row{
+  display:grid;
+  grid-template-columns:70px 1fr;
+  gap:12px;
+  align-items:center;
+}
+
+.time{
+  font-size:13px;
+  color:#888;
+  text-align:center;
+}
+
+.time-input{
+  width:100%;
+  border:0;
+  background:#f7f7f4;
+  border-radius:12px;
+  padding:13px;
+  outline:none;
+}
+
+/* NOTES */
+
+.notes{
+  width:100%;
+  min-height:140px;
+  resize:vertical;
+  border:0;
+  background:#f7f7f4;
+  border-radius:15px;
+  padding:15px;
+  outline:none;
+  font-family:inherit;
+  font-size:14px;
+}
+
+/* RESET */
+
+.reset{
+  margin-top:18px;
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  background:white;
+  border-radius:12px;
+  cursor:pointer;
+  color:#777;
+}
+
+.reset:hover{
+  background:#f5f5f2;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  body{
+    padding:12px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .header{
+    padding:22px;
+  }
+
+  .title{
+    font-size:27px;
+  }
+
+  .card{
+    padding:20px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+
+  <section class="header">
+
+    <div class="date" id="today"></div>
+
+    <div class="title">
+      خطتك لليوم
+    </div>
+
+    <div class="subtitle">
+      ركّز على ما يهم، وأنجز يومك خطوة بخطوة.
+    </div>
+
+  </section>
+
+
+  <!-- PROGRESS -->
+
+  <section class="progress-card">
+
+    <div class="progress-top">
+
+      <div>
+        <div style="font-size:13px;color:#aaa;">
+          تقدم اليوم
+        </div>
+
+        <div class="progress-number" id="progressText">
+          0%
+        </div>
+      </div>
+
+      <div id="taskCount">
+        0 / 0
+      </div>
+
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+  </section>
+
+
+  <div class="grid">
+
+    <!-- PRIORITIES -->
+
+    <section class="card">
+
+      <h2>🎯 أهم 3 أولويات</h2>
+
+      <div class="card-subtitle">
+        إذا أنجزت هذه الثلاثة، فاليوم كان ناجحًا.
+      </div>
+
+      <div class="priority">
+
+        <div class="priority-number">1</div>
+
+        <input
+          id="priority1"
+          placeholder="أهم شيء يجب إنجازه اليوم..."
+        >
+
+      </div>
+
+      <div class="priority">
+
+        <div class="priority-number">2</div>
+
+        <input
+          id="priority2"
+          placeholder="الشيء الثاني..."
+        >
+
+      </div>
+
+      <div class="priority">
+
+        <div class="priority-number">3</div>
+
+        <input
+          id="priority3"
+          placeholder="الشيء الثالث..."
+        >
+
+      </div>
+
+    </section>
+
+
+    <!-- TASKS -->
+
+    <section class="card">
+
+      <h2>✅ مهام اليوم</h2>
+
+      <div class="card-subtitle">
+        لا تضع أكثر مما تستطيع إنجازه.
+      </div>
+
+      <div id="tasks"></div>
+
+      <div class="add-task">
+
+        <input
+          id="taskInput"
+          placeholder="أضف مهمة جديدة..."
+          onkeydown="if(event.key==='Enter') addTask()"
+        >
+
+        <button onclick="addTask()">
+          إضافة
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- TIMELINE -->
+
+    <section class="card">
+
+      <h2>⏰ يومك بصريًا</h2>
+
+      <div class="card-subtitle">
+        اكتب النشاط الأساسي لكل فترة.
+      </div>
+
+      <div class="timeline">
+
+        <div class="time-row">
+          <div class="time">08:00</div>
+          <input class="time-input" data-time="08" placeholder="بداية اليوم...">
+        </div>
+
+        <div class="time-row">
+          <div class="time">10:00</div>
+          <input class="time-input" data-time="10" placeholder="ماذا ستفعل؟">
+        </div>
+
+        <div class="time-row">
+          <div class="time">12:00</div>
+          <input class="time-input" data-time="12" placeholder="ماذا ستفعل؟">
+        </div>
+
+        <div class="time-row">
+          <div class="time">14:00</div>
+          <input class="time-input" data-time="14" placeholder="ماذا ستفعل؟">
+        </div>
+
+        <div class="time-row">
+          <div class="time">16:00</div>
+          <input class="time-input" data-time="16" placeholder="ماذا ستفعل؟">
+        </div>
+
+        <div class="time-row">
+          <div class="time">18:00</div>
+          <input class="time-input" data-time="18" placeholder="ماذا ستفعل؟">
+        </div>
+
+        <div class="time-row">
+          <div class="time">20:00</div>
+          <input class="time-input" data-time="20" placeholder="ماذا ستفعل؟">
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- NOTES -->
+
+    <section class="card">
+
+      <h2>🧠 ملاحظات اليوم</h2>
+
+      <div class="card-subtitle">
+        أفكار، أشياء لا تريد نسيانها، أو مراجعة سريعة.
+      </div>
+
+      <textarea
+        class="notes"
+        id="notes"
+        placeholder="اكتب هنا..."
+      ></textarea>
+
+    </section>
+
+  </div>
+
+
+  <button class="reset" onclick="resetDay()">
+    إعادة ضبط اليوم
+  </button>
+
+</div>
+
+
+<script>
+
+const STORAGE_KEY = "daily_planner_notion_v1";
+
+
+let data = JSON.parse(
+  localStorage.getItem(STORAGE_KEY)
+) || {
+
+  priorities: ["","",""],
+
+  tasks: [],
+
+  timeline: {},
+
+  notes: ""
+
+};
+
+
+/* DATE */
+
+const dateElement =
+  document.getElementById("today");
+
+const today = new Date();
+
+const formattedDate =
+  today.toLocaleDateString(
+    "ar-MA",
+    {
+      weekday:"long",
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    }
+  );
+
+dateElement.textContent =
+  formattedDate;
+
+
+/* SAVE */
+
+function save(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+/* PRIORITIES */
+
+for(let i=1;i<=3;i++){
+
+  const input =
+    document.getElementById("priority"+i);
+
+  input.value =
+    data.priorities[i-1] || "";
+
+  input.addEventListener(
+    "input",
+    function(){
+
+      data.priorities[i-1] =
+        this.value;
+
+      save();
+
+    }
+  );
+
+}
+
+
+/* TASKS */
+
+function renderTasks(){
+
+  const container =
+    document.getElementById("tasks");
+
+  container.innerHTML = "";
+
+  data.tasks.forEach(
+    (task,index)=>{
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "task" +
+        (task.done ? " done" : "");
+
+      row.innerHTML = `
+
+        <input
+          type="checkbox"
+          ${task.done ? "checked" : ""}
+          onchange="toggleTask(${index})"
+        >
+
+        <div class="task-text">
+          ${escapeHTML(task.text)}
+        </div>
+
+        <button
+          class="delete"
+          onclick="deleteTask(${index})"
+        >
+          ×
+        </button>
+
+      `;
+
+      container.appendChild(row);
+
+    }
+  );
+
+  updateProgress();
+
+}
+
+
+function addTask(){
+
+  const input =
+    document.getElementById("taskInput");
+
+  const text =
+    input.value.trim();
+
+  if(!text) return;
+
+  data.tasks.push({
+
+    text:text,
+
+    done:false
+
+  });
+
+  input.value = "";
+
+  save();
+
+  renderTasks();
+
+}
+
+
+function toggleTask(index){
+
+  data.tasks[index].done =
+    !data.tasks[index].done;
+
+  save();
+
+  renderTasks();
+
+}
+
+
+function deleteTask(index){
+
+  data.tasks.splice(index,1);
+
+  save();
+
+  renderTasks();
+
+}
+
+
+/* PROGRESS */
+
+function updateProgress(){
+
+  const total =
+    data.tasks.length;
+
+  const completed =
+    data.tasks.filter(
+      task => task.done
+    ).length;
+
+  const percentage =
+    total === 0
+      ? 0
+      : Math.round(
+          (completed / total) * 100
+        );
+
+  document.getElementById(
+    "progressText"
+  ).textContent =
+    percentage + "%";
+
+  document.getElementById(
+    "progressFill"
+  ).style.width =
+    percentage + "%";
+
+  document.getElementById(
+    "taskCount"
+  ).textContent =
+    completed + " / " + total;
+
+}
+
+
+/* TIMELINE */
+
+document
+  .querySelectorAll(".time-input")
+  .forEach(input => {
+
+    const time =
+      input.dataset.time;
+
+    input.value =
+      data.timeline[time] || "";
+
+    input.addEventListener(
+      "input",
+      function(){
+
+        data.timeline[time] =
+          this.value;
+
+        save();
+
+      }
+    );
+
+  });
+
+
+/* NOTES */
+
+const notes =
+  document.getElementById("notes");
+
+notes.value =
+  data.notes || "";
+
+notes.addEventListener(
+  "input",
+  function(){
+
+    data.notes =
+      this.value;
+
+    save();
+
+  }
+);
+
+
+/* SECURITY */
+
+function escapeHTML(text){
+
+  return text
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* RESET */
+
+function resetDay(){
+
+  const confirmReset =
+    confirm(
+      "هل تريد حذف بيانات اليوم؟"
+    );
+
+  if(!confirmReset) return;
+
+  localStorage.removeItem(
+    STORAGE_KEY
+  );
+
+  location.reload();
+
+}
+
+
+/* INITIALIZE */
+
+renderTasks();
+
+</script>
+
+</body>
+</html>
